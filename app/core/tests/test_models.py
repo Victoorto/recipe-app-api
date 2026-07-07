@@ -2,11 +2,8 @@
 Test for models
 
 """
-from django.contrib.auth.models import PermissionsMixin
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-
-from core.models import User
 
 
 class ModelTets(TestCase):
@@ -14,8 +11,8 @@ class ModelTets(TestCase):
 
     def test_create_user_with_email_successful(self):
         """Test creating a user with email"""
-        email='test@example.com'
-        password= 'asdf1234'
+        email = 'test@example.com'
+        password = 'asdf1234'
         user = get_user_model().objects.create_user(
             email=email,
             password=password
@@ -40,14 +37,14 @@ class ModelTets(TestCase):
     def test_new_user_without_email_raises_error(self):
         """TEst creating a user without email raises a ValueError"""
         with self.assertRaises(ValueError):
-            get_user_model().objects.create_user('','test123')
+            get_user_model().objects.create_user('', 'test123')
 
     def test_create_superuser(self):
         """Test of creating Superuser"""
 
         user = get_user_model().objects.create_superuser(
             'test1@example.com',
-            'test1234'
+            'test1234',
         )
 
         self.assertTrue(user.is_superuser)
