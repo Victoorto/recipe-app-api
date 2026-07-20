@@ -14,6 +14,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+
 def recipe_image_file_path(instance, filename):
     """Generate file path for new recipe image"""
     ext = os.path.splitext(filename)[1]
@@ -56,6 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+
 class Recipe(models.Model):
     """Recipe Object"""
     user = models.ForeignKey(
@@ -74,6 +76,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+
 class Tag(models.Model):
     """Tag for filtering recipes"""
     name = models.CharField(max_length=255)
@@ -84,6 +87,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Ingredient(models.Model):
     """Ingredient for recipes"""

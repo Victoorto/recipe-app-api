@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 from core.models import Recipe, Tag, Ingredient
 
+
 class IngredientSerializer(serializers.ModelSerializer):
     """Serializer for ingredients"""
 
@@ -13,6 +14,7 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = ['id', 'name']
         read_only_fields = ['id',]
+
 
 class TagSerializer(serializers.ModelSerializer):
     """Serializer for tags"""
@@ -22,6 +24,7 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
         read_only_fields = ['id',]
 
+
 class RecipeSerializer(serializers.ModelSerializer):
     """Serializer for recipes"""
     tags = TagSerializer(many=True, required=False)
@@ -29,7 +32,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'title', 'time_minutes', 'price', 'link', 'tags', 'ingredients',]
+        fields = ['id', 'title', 'time_minutes',
+                  'price', 'link', 'tags',
+                  'ingredients',]
         read_only_fields = ['id',]
 
     def _get_or_create_tags(self, tags, recipe):
@@ -78,11 +83,13 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class RecipeDetailSerializer(RecipeSerializer):
     """Serializer for recipe detail view"""
 
     class Meta(RecipeSerializer.Meta):
         fields = RecipeSerializer.Meta.fields + ['description', 'image']
+
 
 class RecipeImageSerialiazer(serializers.ModelSerializer):
     """Serializer for uploading images to recipes"""
@@ -92,4 +99,3 @@ class RecipeImageSerialiazer(serializers.ModelSerializer):
         fields = ['id', 'image']
         read_only_fields = ['id']
         extra_kwargs = {'image': {'required': 'True'}}
-
