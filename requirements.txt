@@ -4,3 +4,4 @@ psycopg2-binary==2.9.12
 drf-spectacular==0.29.0
 Pillow==11.3.0
 uwsgi==2.0.29
+django-cors-headers==4.7.0

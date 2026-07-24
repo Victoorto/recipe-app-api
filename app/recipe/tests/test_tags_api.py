@@ -59,7 +59,7 @@ class PrivateTagsAPITest(TestCase):
         serializer = TagSerializer(tags, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data['results'], serializer.data)
 
     def test_tags_limited_to_user(self):
         """Test list of tags is limited to authenticated user"""
@@ -70,9 +70,9 @@ class PrivateTagsAPITest(TestCase):
         res = self.client.get(TAGS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0]['name'], tag.name)
-        self.assertEqual(res.data[0]['id'], tag.id)
+        self.assertEqual(len(res.data['results']), 1)
+        self.assertEqual(res.data['results'][0]['name'], tag.name)
+        self.assertEqual(res.data['results'][0]['id'], tag.id)
 
     def test_update_tag(self):
         """Test updating a tag"""
@@ -115,8 +115,8 @@ class PrivateTagsAPITest(TestCase):
         s1 = TagSerializer(tag1)
         s2 = TagSerializer(tag2)
 
-        self.assertIn(s1.data, res.data)
-        self.assertNotIn(s2.data, res.data)
+        self.assertIn(s1.data, res.data['results'])
+        self.assertNotIn(s2.data, res.data['results'])
 
     def test_filtered_ingredients_unique(self):
         """Test filtered ingredients returns a unique list """
@@ -141,4 +141,4 @@ class PrivateTagsAPITest(TestCase):
 
         res = self.client.get(TAGS_URL, {'assigned_only': 1})
 
-        self.assertEqual(len(res.data), 1)
+        self.assertEqual(len(res.data['results']), 1)

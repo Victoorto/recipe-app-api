@@ -85,7 +85,7 @@ class PrivateRecipeAPITest(TestCase):
         serializer = RecipeSerializer(recipes, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data['results'], serializer.data)
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user"""
@@ -103,7 +103,7 @@ class PrivateRecipeAPITest(TestCase):
         serializer = RecipeSerializer(recipes, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data['results'], serializer.data)
 
     def test_get_recipe_details(self):
         """Test get recipe details"""
@@ -371,9 +371,9 @@ class PrivateRecipeAPITest(TestCase):
         s2 = RecipeSerializer(r2)
         s3 = RecipeSerializer(r3)
 
-        self.assertIn(s1.data, res.data)
-        self.assertIn(s2.data, res.data)
-        self.assertNotIn(s3.data, res.data)
+        self.assertIn(s1.data, res.data['results'])
+        self.assertIn(s2.data, res.data['results'])
+        self.assertNotIn(s3.data, res.data['results'])
 
     def test_filter_by_ingredients(self):
         """Test filtering by ingredients"""
@@ -392,9 +392,9 @@ class PrivateRecipeAPITest(TestCase):
         s2 = RecipeSerializer(r2)
         s3 = RecipeSerializer(r3)
 
-        self.assertIn(s1.data, res.data)
-        self.assertIn(s2.data, res.data)
-        self.assertNotIn(s3.data, res.data)
+        self.assertIn(s1.data, res.data['results'])
+        self.assertIn(s2.data, res.data['results'])
+        self.assertNotIn(s3.data, res.data['results'])
 
 
 class ImageUploadTest(TestCase):

@@ -60,7 +60,7 @@ class PrivateIngredientAPITest(TestCase):
         serializer = IngredientSerializer(ingredients, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data['results'], serializer.data)
 
     def test_tags_limited_to_user(self):
         """Test list of ingredients is limited to authenticated user"""
@@ -71,9 +71,9 @@ class PrivateIngredientAPITest(TestCase):
         res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0]['name'], ingredient.name)
-        self.assertEqual(res.data[0]['id'], ingredient.id)
+        self.assertEqual(len(res.data['results']), 1)
+        self.assertEqual(res.data['results'][0]['name'], ingredient.name)
+        self.assertEqual(res.data['results'][0]['id'], ingredient.id)
 
     def test_update_tag(self):
         """Test updating a ingredient"""
@@ -116,8 +116,8 @@ class PrivateIngredientAPITest(TestCase):
         s1 = IngredientSerializer(in1)
         s2 = IngredientSerializer(in2)
 
-        self.assertIn(s1.data, res.data)
-        self.assertNotIn(s2.data, res.data)
+        self.assertIn(s1.data, res.data['results'])
+        self.assertNotIn(s2.data, res.data['results'])
 
     def test_filtered_ingredients_unique(self):
         """Test filtered ingredients returns a unique list """
@@ -142,4 +142,4 @@ class PrivateIngredientAPITest(TestCase):
 
         res = self.client.get(INGREDIENTS_URL, {'assigned_only': 1})
 
-        self.assertEqual(len(res.data), 1)
+        self.assertEqual(len(res.data['results']), 1)
